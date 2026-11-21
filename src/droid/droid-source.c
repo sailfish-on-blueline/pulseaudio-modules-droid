@@ -118,6 +118,7 @@ static int thread_read(struct userdata *u) {
             pa_silence_memory(p, chunk.length, &u->source->sample_spec);
             pa_source_post(u->source, &chunk);
             pa_memblock_release(chunk.memblock);
+            u->timestamp = pa_rtclock_now() + pa_bytes_to_usec(chunk.length, &u->source->sample_spec);
             goto end;
         }
     }
@@ -126,8 +127,9 @@ static int thread_read(struct userdata *u) {
     readd = pa_droid_stream_read(u->stream, p, pa_memblock_get_length(chunk.memblock));
     pa_memblock_release(chunk.memblock);
 
-    if (readd < 0) {
+    if (readd <= 0) {
         pa_log("Failed to read from stream. (err %zd)", readd);
+        u->timestamp = pa_rtclock_now() + pa_bytes_to_usec(u->buffer_size, &u->source->sample_spec);
         goto end;
     }
 

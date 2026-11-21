@@ -5,8 +5,8 @@
 Name:       pulseaudio-modules-droid
 
 Summary:    PulseAudio Droid HAL modules
-Version:    %{pulsemajorminor}.110
-Release:    1
+Version:    14.2.110
+Release:    1.26.2.blueline
 License:    LGPLv2+
 URL:        https://github.com/mer-hybris/pulseaudio-modules-droid
 Source0:    %{name}-%{version}.tar.bz2
